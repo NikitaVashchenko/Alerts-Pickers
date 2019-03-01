@@ -1,3 +1,5 @@
+
+#if PERMISSION_CONTACTS
 import Foundation
 import Contacts
 import UIKit
@@ -274,3 +276,4 @@ public struct Telephone {
 fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
+#endif

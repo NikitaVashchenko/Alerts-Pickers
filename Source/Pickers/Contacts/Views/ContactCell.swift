@@ -1,3 +1,5 @@
+
+#if PERMISSION_CONTACTS
 import UIKit
 
 final class ContactTableViewCell: UITableViewCell {
@@ -68,3 +70,4 @@ final class ContactTableViewCell: UITableViewCell {
         }
     }
 }
+#endif

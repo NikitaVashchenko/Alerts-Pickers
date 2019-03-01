@@ -1,3 +1,5 @@
+
+#if PERMISSION_CONTACTS
 import UIKit
 import ContactsUI
 
@@ -326,3 +328,4 @@ extension ContactsPickerViewController: UITableViewDataSource {
         return cell
     }
 }
+#endif

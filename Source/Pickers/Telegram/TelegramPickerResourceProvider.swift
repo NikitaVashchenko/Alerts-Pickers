@@ -13,7 +13,9 @@ public enum LocalizableButtonType {
     case photoOrVideo
     case file
     case location
+	#if PERMISSION_CONTACTS
     case contact
+	#endif
     case photos(count: Int)
     case videos(count: Int)
     case medias(count: Int)

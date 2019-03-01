@@ -1,3 +1,5 @@
+
+#if PERMISSION_CONTACTS
 import UIKit
 import Contacts
 
@@ -66,3 +68,4 @@ public struct Contact {
         }
     }
 }
+#endif

@@ -8,7 +8,9 @@ public enum TelegramSelectionType {
     case media([PHAsset])
     case photoLibrary
     case location(Location?)
+	#if PERMISSION_CONTACTS
     case contact(Contact?)
+	#endif
     case camera(Camera.PreviewStream)
     case document
     case photosAsDocuments([PHAsset])
@@ -41,7 +43,9 @@ final public class TelegramPickerViewController: UIViewController {
     public enum ButtonType: Int {
         case photoOrVideo
         case location
+		#if PERMISSION_CONTACTS
         case contact
+		#endif
         case file
         case sendPhotos
         case documentAsFile
@@ -768,7 +772,12 @@ final public class TelegramPickerViewController: UIViewController {
     
     private func buttonsForMode(_ mode: Mode) -> [ButtonType] {
         switch mode {
-        case .normal: return [.photoOrVideo, .file, .location, .contact]
+        case .normal:
+			var buttonTypes: [ButtonType] = [.photoOrVideo, .file, .location]
+			#if PERMISSION_CONTACTS
+			buttonTypes.append(.contact)
+			#endif
+			return buttonTypes
         case .bigPhotoPreviews: return [.sendPhotos, .photoAsFile]
         case .documentType: return [.documentAsFile, .photoAsFile]
         }
@@ -808,12 +817,14 @@ final public class TelegramPickerViewController: UIViewController {
                                                completion: { location in
                                                 selection(TelegramSelectionType.location(location))
             })
-            
+			
+		#if PERMISSION_CONTACTS
         case .contact:
             let selection = self.selection
             alertController?.addContactsPicker(localizer: localizer) { contact in
                 selection(TelegramSelectionType.contact(contact))
             }
+		#endif
             
         case .sendPhotos:
             let assets = selectedAssets
@@ -1156,7 +1167,9 @@ extension TelegramPickerViewController: GalleryItemsDelegate {
         case .photoOrVideo: localizableButton = .photoOrVideo
         case .file: localizableButton = .file
         case .location: localizableButton = .location
+		#if PERMISSION_CONTACTS
         case .contact: localizableButton = .contact
+		#endif
         case .sendPhotos: localizableButton = .photos(count: selectedAssets.count)
         case .documentAsFile: localizableButton = .sendDocumentAsFile
         case .photoAsFile: localizableButton = .sendPhotoAsFile(count: selectedAssets.count)
