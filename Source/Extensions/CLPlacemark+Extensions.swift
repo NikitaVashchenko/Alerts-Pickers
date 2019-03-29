@@ -5,7 +5,7 @@
 //  Created by Lex on 04.10.2018.
 //  Copyright © 2018 Supreme Apps. All rights reserved.
 //
-
+#if PERMISSION_LOCATION
 import Foundation
 import CoreLocation
 import Contacts
@@ -21,3 +21,5 @@ extension CLPlacemark {
     }
     
 }
+
+#endif

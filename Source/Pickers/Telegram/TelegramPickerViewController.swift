@@ -7,7 +7,10 @@ public typealias TelegramSelection = (TelegramSelectionType) -> ()
 public enum TelegramSelectionType {
     case media([PHAsset])
     case photoLibrary
+	#if PERMISSION_LOCATION
     case location(Location?)
+	#endif
+	
 	#if PERMISSION_CONTACTS
     case contact(Contact?)
 	#endif
@@ -42,7 +45,9 @@ final public class TelegramPickerViewController: UIViewController {
     
     public enum ButtonType: Int {
         case photoOrVideo
-        case location
+		#if PERMISSION_LOCATION
+		case location
+		#endif
 		#if PERMISSION_CONTACTS
         case contact
 		#endif
@@ -773,10 +778,16 @@ final public class TelegramPickerViewController: UIViewController {
     private func buttonsForMode(_ mode: Mode) -> [ButtonType] {
         switch mode {
         case .normal:
-			var buttonTypes: [ButtonType] = [.photoOrVideo, .file, .location]
+			var buttonTypes: [ButtonType] = [.photoOrVideo, .file]
+			
+			#if PERMISSION_LOCATION
+			buttonTypes.append(.location)
+			#endif
+			
 			#if PERMISSION_CONTACTS
 			buttonTypes.append(.contact)
 			#endif
+			
 			return buttonTypes
         case .bigPhotoPreviews: return [.sendPhotos, .photoAsFile]
         case .documentType: return [.documentAsFile, .photoAsFile]
@@ -808,15 +819,16 @@ final public class TelegramPickerViewController: UIViewController {
             alertController?.dismiss(animated: true) {
                 selection(.document)
             }
-            
-        case .location:
-            let selection = self.selection
-            let provider = self.localizer.resourceProviderForLocationPicker()
-            alertController?.addLocationPicker(location: nil,
-                                               resourceProvider: provider,
-                                               completion: { location in
-                                                selection(TelegramSelectionType.location(location))
-            })
+		#if PERMISSION_LOCATION
+		case .location:
+			let selection = self.selection
+			let provider = self.localizer.resourceProviderForLocationPicker()
+			alertController?.addLocationPicker(location: nil,
+											   resourceProvider: provider,
+											   completion: { location in
+												selection(TelegramSelectionType.location(location))
+			})
+		#endif
 			
 		#if PERMISSION_CONTACTS
         case .contact:
@@ -1166,10 +1178,15 @@ extension TelegramPickerViewController: GalleryItemsDelegate {
         switch button {
         case .photoOrVideo: localizableButton = .photoOrVideo
         case .file: localizableButton = .file
-        case .location: localizableButton = .location
+		
+		#if PERMISSION_LOCATION
+		case .location: localizableButton = .location
+		#endif
+			
 		#if PERMISSION_CONTACTS
         case .contact: localizableButton = .contact
 		#endif
+			
         case .sendPhotos: localizableButton = .photos(count: selectedAssets.count)
         case .documentAsFile: localizableButton = .sendDocumentAsFile
         case .photoAsFile: localizableButton = .sendPhotoAsFile(count: selectedAssets.count)

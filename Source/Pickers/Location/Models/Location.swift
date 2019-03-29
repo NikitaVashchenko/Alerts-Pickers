@@ -1,3 +1,6 @@
+
+#if PERMISSION_LOCATION
+
 import Foundation
 import CoreLocation
 import Contacts
@@ -40,3 +43,5 @@ extension Location: MKAnnotation {
 		return address
 	}
 }
+
+#endif

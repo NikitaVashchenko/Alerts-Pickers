@@ -1,3 +1,6 @@
+
+#if PERMISSION_LOCATION
+
 import UIKit
 import MapKit
 import Contacts
@@ -85,3 +88,5 @@ extension Location {
                 coordinate: placemarkCoordinates, addressDictionary: placemarkAddressDic))
 	}
 }
+
+#endif

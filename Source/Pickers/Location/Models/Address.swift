@@ -1,3 +1,6 @@
+
+#if PERMISSION_LOCATION
+
 import UIKit
 import CoreLocation
 
@@ -52,3 +55,5 @@ struct Address {
         return [[city, zip].compactMap{$0}.joined(separator: " "), country].compactMap{$0}.joined(separator: ", ")
     }
 }
+
+#endif

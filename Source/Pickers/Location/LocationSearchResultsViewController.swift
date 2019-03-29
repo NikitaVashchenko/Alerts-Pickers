@@ -1,3 +1,6 @@
+
+#if PERMISSION_LOCATION
+
 import UIKit
 import MapKit
 
@@ -50,3 +53,5 @@ final class LocationSearchResultsViewController: UITableViewController {
 		onSelectLocation?(locations[indexPath.row])
 	}
 }
+
+#endif

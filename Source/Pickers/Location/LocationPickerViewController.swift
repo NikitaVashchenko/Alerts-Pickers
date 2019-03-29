@@ -1,3 +1,6 @@
+
+#if PERMISSION_LOCATION
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -477,3 +480,5 @@ extension LocationPickerViewController: UISearchBarDelegate {
 		}
 	}
 }
+
+#endif

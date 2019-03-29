@@ -12,7 +12,9 @@ import UIKit
 public enum LocalizableButtonType {
     case photoOrVideo
     case file
-    case location
+	#if PERMISSION_LOCATION
+	case location
+	#endif
 	#if PERMISSION_CONTACTS
     case contact
 	#endif
@@ -36,7 +38,9 @@ public protocol TelegramPickerResourceProvider {
     
     /// Perform dismisser in your action block to dismiss this alert from a presenting controller.
     func localizedAlert(failure: Failure) -> UIAlertController?
-    
-    func resourceProviderForLocationPicker() -> LocationPickerViewControllerResourceProvider?    
+	
+	#if PERMISSION_LOCATION
+	func resourceProviderForLocationPicker() -> LocationPickerViewControllerResourceProvider?
+	#endif
 }
 
